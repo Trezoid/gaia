@@ -63,7 +63,14 @@ function hideSourceViewer() {
     viewsource.style.visibility = 'hidden';
   }
 }
-
+function applyTheme()
+{
+  var currentTheme = (currentTheme = localStorage.getItem('currentTheme')) != null ? currentTheme : 'style/homescreen.css';
+  var theme = document.createElement('link');
+  theme.setAttribute('rel','stylesheet');
+  theme.setAttribute('href', currentTheme);
+  document.head.appendChild(theme);
+}
 // Change the display state (off, locked, default)
 function changeDisplayState(state) {
   displayState = state;
@@ -681,6 +688,7 @@ LockScreen.prototype = {
 };
 
 function OnLoad() {
+  applyTheme();
   Gaia.lockScreen = new LockScreen(document.getElementById('lockscreen'));
 
   var touchables = [
