@@ -65,7 +65,16 @@ function hideSourceViewer() {
 }
 function applyTheme()
 {
-  var currentTheme = (currentTheme = localStorage.getItem('currentTheme')) != null ? currentTheme : 'style/homescreen.css';
+  var currentTheme = (currentTheme = localStorage.getItem('currentTheme')) !== null ? currentTheme : 'style/homescreen.css';
+  var useBase = localStorage.getItem('useBase'); 
+  if(useBase !== null && useBase === true)
+  {
+    var baseTheme = document.createElement('link');
+    baseTheme.setAttribute('rel','stylesheet');
+    baseTheme.setAttribute('href', 'style/homescreen.css');
+    document.head.appendChild(baseTheme);
+  }
+
   var theme = document.createElement('link');
   theme.setAttribute('rel','stylesheet');
   theme.setAttribute('href', currentTheme);
