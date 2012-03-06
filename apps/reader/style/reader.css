@@ -2,5 +2,45 @@ p, h1, h2, h3, h4, h5, h6{font-family:georgia, serif!important; font-size: 1.4em
 
 h1, h2, h3, h4, strong{color: #004654;}
 *{background: url('images/noise.png') repeat #fef7e8;}
-#pages, #book{top:0!important;}
-body{overflow:hidden;} 
+#pages, #book{top:0!important; word-wrap: break;}
+body{overflow:hidden;padding-left:0px!important;margin:0!important;height: 100%;}
+html{height: 100%;}
+/*
+ * book selector styling
+ */
+
+#fileHolder {
+  position:relative;
+  height: 200px;
+  width: 50%;
+  max-width: 400px ;
+  margin: 0 auto;
+  top:50%!important;
+  margin-top:-100px;
+  text-align: center;
+}
+#fileHolder h2 {
+  font-size: 2em!important;
+}
+
+input[type=file] {
+font-size: 140%;
+margin: 0 auto;
+background: #fff;
+opacity: 0.9;
+width:100%;
+}
+
+@Media all and (max-width: 600px)
+{
+  input[type=file] {
+    font-size: 100%;
+  }
+}
+
+@Media all and (max-width: 400px)
+{
+  input[type=file] {
+    font-size: 12px;
+  }
+}
