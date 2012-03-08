@@ -110,9 +110,7 @@ function showChapter(dir) {
 
 function nextPage(dir) {
   var pages = document.getElementById('pages');
-  if (((page + dir) * (window.innerWidth + 2)) >=
-      (window.innerWidth + window.scrollMaxX) ||
-      (pages + dir < 0))
+  if ((page + dir) * (window.innerWidth + 1) >= pages.clientWidth) 
   {
     showChapter(dir);
     page = 0;
@@ -120,7 +118,7 @@ function nextPage(dir) {
     return;
   }
   pages.setAttribute('style', '-moz-transform: translate(-' +
-        ((page + dir) * (window.innerWidth + 1)) + 'px, 0);');
+        ((page + dir) * (window.innerWidth) + (page * 3)) + 'px, 0);');
 
   page += dir;
 }
@@ -172,7 +170,7 @@ moving.prototype = {
       if ((callingEvt.timeStamp - this.startTime) < 250) {
         toggleMenu();
         this.pageStyle.MozTransform = 'translateX(-' +
-            (page * (window.innerWidth + 1)) + 'px)';
+            ((page + dir) * (window.innerWidth) + (page * 3)) + 'px)';
 
     } else if ((-1 * offset > (window.innerWidth / 4)) ||
         offset > (window.innerWidth / 4)) {
