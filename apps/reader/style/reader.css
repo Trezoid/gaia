@@ -1,10 +1,26 @@
-p, h1, h2, h3, h4, h5, h6{font-family:georgia, serif!important; font-size: 1.4em!important;color:#6a8188!important;}
+p, h1, h2, h3, h4, h5, h6 {
+  font-family:georgia, serif!important;
+  font-size: 1.4em!important;
+}
 
-h1, h2, h3, h4, strong{color: #004654;}
-*{background: url('images/noise.png') repeat #fef7e8;}
-#pages, #book{top:0!important; word-wrap: break;}
-body{overflow:hidden;padding-left:0px!important;margin:0!important;height: 100%;}
-html{height: 100%;}
+a {
+  color:#DC322F!important;
+}
+
+#pages, #book {
+  top:0!important;
+}
+
+body {
+  overflow:hidden;
+  padding-left:0px!important;
+  margin:0!important;
+  height: 100%;
+}
+
+html {
+  height: 100%;
+}
 /*
  * book selector styling
  */
@@ -43,4 +59,32 @@ width:100%;
   input[type=file] {
     font-size: 12px;
   }
+}
+
+/*
+ * Menu styling
+ */
+#menu {
+  z-index: 99999;
+  -moz-transition: opacity 0.2s ease-out;
+}
+
+#menu #back {
+  background: url('images/back.png') no-repeat center center rgba(5, 5, 5, 0.5);
+  border-radius: 6px;
+  top: 10px;
+  left: 10px;
+  position:fixed;
+  width: 80px;
+  height: 40px;
+}
+
+#menu #toggle {
+  background: url('images/toggle.png') no-repeat center center rgba(5, 5, 5, 0.5);
+  border-radius:6px;
+  top: 10px;
+  right: 10px;
+  position: fixed;
+  width: 40px;
+  height: 40px;
 }

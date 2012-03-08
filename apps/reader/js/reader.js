@@ -6,18 +6,40 @@
 var mover = null;
 function update(file)
 {
+  document.getElementById('menu').style.display = 'none';
   var reader = new FileReader();
   reader.readAsBinaryString(file.item(0));
-  
+
   reader.onload = function(event)
   {
     createBook(reader.result);
   };
 
-  document.addEventListener('mousedown', function(evt) {mover = new moving(evt);}, false);
-    document.addEventListener('mousemove', function(evt) {mover.mouseMove(evt);}, false);
-    document.addEventListener('mouseup', function(evt) {mover.mouseEnd(evt);}, false);
+  /* swiping event listeners */
+  document.addEventListener('mousedown',
+      function(evt) {mover = new moving(evt);},
+      false);
+
+  document.addEventListener('mousemove',
+      function(evt) {mover.mouseMove(evt);},
+      false);
+
+  document.addEventListener('mouseup',
+      function(evt) {mover.mouseEnd(evt);},
+      false);
+
+  /* menu event listeners */
+  var back = document.getElementById('back');
+  var toggle = document.getElementById('toggle');
   
+  back.addEventListener('click',
+      function() {resetBook();},
+      false);
+
+  toggle.addEventListener('click',
+      function() {toggleStyle();},
+      false);
+
 }
 
 var book;
@@ -38,19 +60,23 @@ function createBook(epub)
   });
 }
 
-var page = 0;
-var chapter = 0;
-function showChapter() {
-  document.getElementById('pageStyle').innerHTML = '';
-  if (!book.opf.spine[chapter])
-  {
+function resetBook() {
     book = null;
     document.getElementsByTagName('input')[0].value = '';
     document.getElementById('fileHolder').style.display = 'block';
     document.getElementById('pages').innerHTML = '';
     chapter = 0;
     page = 0;
-    return;
+    document.getElementById('menu').style.display = 'none';
+}
+
+var page = 0;
+var chapter = 0;
+function showChapter(dir) {
+  document.getElementById('pageStyle').innerHTML = '';
+  if (!book.opf.spine[chapter])
+  {
+    resetBook();
   }
   var spine = book.opf.spine[chapter];
   var href = book.opf.manifest[spine]['href'];
@@ -64,9 +90,11 @@ function showChapter() {
 
   if (totalHeight - 40 > window.innerHeight)
   {
+    var pageRatio = totalHeight / window.innerHeight;
     contentWidth = (window.innerWidth > window.innerHeight) ?
-      ((totalHeight / window.innerHeight) * window.innerWidth) + (window.innerWidth) :
-      ((totalHeight / window.innerHeight) * window.innerHeight) + window.innerHeight;
+       (pageRatio * window.innerWidth) + (window.innerWidth) :
+      (pageRatio * window.innerHeight) + window.innerHeight;
+
     var numCols = Math.ceil(contentWidth / (window.innerWidth - 80));
     contentWidth = numCols * window.innerWidth;
   }
@@ -82,9 +110,11 @@ function showChapter() {
 
 function nextPage(dir) {
   var pages = document.getElementById('pages');
-  if (((page + dir) * (window.innerWidth + 2)) >= (window.innerWidth + window.scrollMaxX))
+  if (((page + dir) * (window.innerWidth + 2)) >=
+      (window.innerWidth + window.scrollMaxX) ||
+      (pages + dir < 0))
   {
-    showChapter();
+    showChapter(dir);
     page = 0;
     pages.setAttribute('style', '-moz-transform: translate(0, 0);');
     return;
@@ -92,46 +122,73 @@ function nextPage(dir) {
   pages.setAttribute('style', '-moz-transform: translate(-' +
         ((page + dir) * (window.innerWidth + 1)) + 'px, 0);');
 
-  page += 1;
+  page += dir;
 }
 
-function showMenu() {
+function toggleMenu() {
+  var menu = document.getElementById('menu');
+  if (menu.style.display === 'none')
+  {
+    menu.style.display = 'block'; 
+    menu.style.opacity = '1';
+    return;
+  }
+  menu.style.opacity = '0';
+  menu.style.display = 'none';
   /*
    * TODO: Make menus for useful functions
    * Primarily back to menu, page jump, bookmark(?)
    */
 }
 
+function toggleStyle() {
+  var style = document.getElementById('style');
+  if (style.getAttribute('href') === 'style/dark.css')
+  {
+    style.setAttribute('href', 'style/light.css');
+    return;
+  }
+  style.setAttribute('href', 'style/dark.css');
+}
+
 var moving = function(evt) {
+  this.pageStyle = document.getElementById('pages').style;
   this.startTime = evt.timeStamp;
   this.startX = evt.screenX;
   this.active = true;
-}
+};
 
 moving.prototype = {
   mouseMove: function(callingEvt) {
-    if(this.active === true)
+    if (this.active === true)
     {
         var offset = callingEvt.screenX - this.startX;
-       document.getElementById('pages').style.MozTransform= 'translateX(-'+((page * (window.innerWidth + 1)) + (-1 * offset))+'px)';
+        this.pageStyle.MozTransform = 'translateX(-' +
+            ((page * (window.innerWidth + 1)) + (-1 * offset)) + 'px)';
     }
   },
 
-  mouseEnd: function (callingEvt) {
+  mouseEnd: function(callingEvt) {
       this.active = false;
       var offset = callingEvt.screenX - this.startX;
-      if((callingEvt.timeStamp - this.startTime) < 30) {
-        showMenu();
-    } else if((-1 * offset > (window.innerWidth / 8))) {
+      if ((callingEvt.timeStamp - this.startTime) < 250) {
+        toggleMenu();
+        this.pageStyle.MozTransform = 'translateX(-' +
+            (page * (window.innerWidth + 1)) + 'px)';
+
+    } else if ((-1 * offset > (window.innerWidth / 4)) ||
+        offset > (window.innerWidth / 4)) {
+
         var dir = offset > 0 ? -1 : 1;
         nextPage(dir);
         mover = null;
-    } else  {
-        document.getElementById('pages').style.MozTransform = 'translateX(-'+(page * (window.innerWidth + 1)) + 'px)';
+
+    } else {
+        this.pageStyle.MozTransform = 'translateX(-' +
+            (page * (window.innerWidth + 1)) + 'px)';
     }
-      
   }
-}
+};
 
 window.onload = function()
 {
