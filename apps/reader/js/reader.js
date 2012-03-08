@@ -31,7 +31,7 @@ function update(file)
   /* menu event listeners */
   var back = document.getElementById('back');
   var toggle = document.getElementById('toggle');
-  
+ 
   back.addEventListener('click',
       function() {resetBook();},
       false);
@@ -129,11 +129,9 @@ function toggleMenu() {
   var menu = document.getElementById('menu');
   if (menu.style.display === 'none')
   {
-    menu.style.display = 'block'; 
-    menu.style.opacity = '1';
+    menu.style.display = 'block';
     return;
   }
-  menu.style.opacity = '0';
   menu.style.display = 'none';
   /*
    * TODO: Make menus for useful functions
