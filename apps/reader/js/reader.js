@@ -181,7 +181,7 @@ moving.prototype = {
 
     } else {
         this.pageStyle.MozTransform = 'translateX(-' +
-            (page * (window.innerWidth + 1)) + 'px)';
+            ((page) * (window.innerWidth) + (page * 3)) + 'px)';
     }
   }
 };

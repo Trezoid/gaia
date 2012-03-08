@@ -3,6 +3,19 @@ p, h1, h2, h3, h4, h5, h6 {
   font-size: 1.4em!important;
 }
 
+p {
+  text-align: left;
+  width: -moz-calc(100% - 40px);
+  -moz-font-feature-settings: "pnum=1,onum=1";
+  text-rendering: optimizeLegibility;
+  -moz-font-feature-settings: "kern=1";
+  -moz-font-feature-settings: "frac=1";
+  -moz-font-feature-settings: "ss05=1";
+  -moz-font-feature-settings: "swsh=1,cswh=1";
+  -moz-font-feature-settings: "liga=1";
+}
+
+
 a {
   color:#B58900!important;
 }
