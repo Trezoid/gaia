@@ -3,6 +3,6 @@ p, h1, h2, h3, h4, h5, h6 {
 }
 
 h1, h2, h3, h4, strong {color: #6a8188;}
-* {
+body {
   background: url('images/noise.png') repeat #004654;
 }
