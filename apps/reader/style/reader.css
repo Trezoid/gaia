@@ -54,6 +54,19 @@ html {
   font-size: 2em!important;
 }
 
+#fileHolder a {
+  padding: 10px;
+  margin: 10px;
+  position:relative;
+  top: 20px;
+  background: rgba(5,5,5,0.5);
+  color: #fff!important;
+}
+
+#preview:active, #preview:hover {
+  background: rgba(0,0,0,0.7);
+}
+
 input[type=file] {
 font-size: 140%;
 margin: 0 auto;
@@ -82,6 +95,7 @@ width:100%;
 #menu {
   z-index: 99999;
   -moz-transition: opacity 0.2s ease-out;
+  -webkit-transition: opacity 0.2s ease-out;
 }
 
 #menu #back {
