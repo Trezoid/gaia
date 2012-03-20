@@ -199,6 +199,9 @@ function nextPage(dir) {
       '-webkit-transform: translate(-' + 
         ((page + dir) * (window.innerWidth) - (page )) + 'px, 0);');
 
+        pages.style.MozTransition = 'all 0.2s ease 0s';
+        pages.style.WebkitTransition='all 0.2s ease 0s';
+
   page += dir;
 }
 
@@ -242,6 +245,8 @@ moving.prototype = {
             ((page * (window.innerWidth + 1)) + (-1 * offset)) + 'px)';
         this.pageStyle.WebkitTransform = 'translateX(-' +
             ((page * (window.innerWidth + 1)) + (-1 * offset)) + 'px)';
+        this.pageStyle.MozTransition = 'all 0s ease 0s';
+        this.pageStyle.WebkitTransition='all 0s ease 0s';
     }
   },
 
